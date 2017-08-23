@@ -25,7 +25,7 @@ app.get('/', function (req, res) {
 
     let CronJob = cron.CronJob;
     let job = new CronJob({
-        cronTime: '* 00 18 * * *',
+        cronTime: '* 54 19 * * *',
         onTick: function () {
             sendEmail(config, (data) => { console.log(data); });
             /*
@@ -34,7 +34,8 @@ app.get('/', function (req, res) {
              * or Sunday.
              */
         },
-        start: false
+        start: false,
+        timeZone:'Asia/Kathmandu'
     });
     job.start();
 });
