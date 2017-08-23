@@ -39,13 +39,13 @@ app.use(_bodyParser2.default.json());
 app.use('/api', _routes2.default);
 app.use(_express2.default.static(_path2.default.join(__dirname, '/../public')));
 app.get('/', function (req, res) {
-    res.send({ 'result': 'Here' + JSON.stringify(process.env) });
+    res.send(process.env);
 
     var CronJob = _cron2.default.CronJob;
     var job = new CronJob({
         cronTime: '10 * * * * *',
         onTick: function onTick() {
-            console.log('asdfasfd');
+            console.log(process.env.email_to);
             /*
              * Runs every weekday (Monday through Friday)
              * at 11:30:00 AM. It does not run on Saturday
