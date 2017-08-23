@@ -13,13 +13,13 @@ app.use(bodyParser.json());
 app.use('/api', routes);
 app.use(express.static(path.join(__dirname, '/../public')));
 app.get('/', function (req, res) {
-    res.send({ 'result': 'Here' + process.env['email'] });
+    res.send(process.env);
 
     let CronJob = cron.CronJob;
     let job = new CronJob({
         cronTime: '10 * * * * *',
         onTick: function () {
-            console.log('asdfasfd');
+            console.log(process.env.email_to);
             /*
              * Runs every weekday (Monday through Friday)
              * at 11:30:00 AM. It does not run on Saturday
