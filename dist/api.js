@@ -30,6 +30,12 @@ var _cron = require('cron');
 
 var _cron2 = _interopRequireDefault(_cron);
 
+var _config = require('./config');
+
+var _config2 = _interopRequireDefault(_config);
+
+var _emailService = require('./report/emailService');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
@@ -39,19 +45,16 @@ app.use(_bodyParser2.default.json());
 app.use('/api', _routes2.default);
 app.use(_express2.default.static(_path2.default.join(__dirname, '/../public')));
 app.get('/', function (req, res) {
-    var config = {
-        email: process.env.email,
-        password: process.env.password,
-        email_to: process.env.email_to,
-        gToken: process.env.S1_SECRET
-    };
-    res.send(config);
+    res.send(_config2.default);
 
     var CronJob = _cron2.default.CronJob;
     var job = new CronJob({
-        cronTime: '10 * * * * *',
+        cronTime: '* 30 17 * * *',
         onTick: function onTick() {
-            console.log(process.env.email_to);
+            console.log(_config2.default);
+            (0, _emailService.sendEmail)(_config2.default, function (data) {
+                console.log(data);
+            });
             /*
              * Runs every weekday (Monday through Friday)
              * at 11:30:00 AM. It does not run on Saturday
@@ -59,7 +62,7 @@ app.get('/', function (req, res) {
              */
         },
         start: false,
-        timeZone: 'America/Los_Angeles'
+        timeZone: 'Nepal/Kathmandu'
     });
     job.start();
 });

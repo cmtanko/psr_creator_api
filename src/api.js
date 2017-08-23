@@ -5,6 +5,8 @@ import routes from './routes';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cron from 'cron';
+import config from './config';
+import { sendEmail } from './report/emailService';
 
 const app = express();
 var port = process.env.PORT || 3000;
@@ -13,19 +15,14 @@ app.use(bodyParser.json());
 app.use('/api', routes);
 app.use(express.static(path.join(__dirname, '/../public')));
 app.get('/', function (req, res) {
-    const config = {
-        email: process.env.email,
-        password: process.env.password,
-        email_to: process.env.email_to,
-        gToken: process.env.S1_SECRET
-    }
     res.send(config);
 
     let CronJob = cron.CronJob;
     let job = new CronJob({
-        cronTime: '10 * * * * *',
+        cronTime: '* 30 17 * * *',
         onTick: function () {
-            console.log(process.env.email_to);
+            console.log(config);
+            sendEmail(config, (data) => { console.log(data); });
             /*
              * Runs every weekday (Monday through Friday)
              * at 11:30:00 AM. It does not run on Saturday
@@ -33,7 +30,7 @@ app.get('/', function (req, res) {
              */
         },
         start: false,
-        timeZone: 'America/Los_Angeles'
+        timeZone: 'Nepal/Kathmandu'
     });
     job.start();
 });

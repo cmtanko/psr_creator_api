@@ -3,4 +3,6 @@ bower_components/
 .sass-cache/
 .idea/
 .tmp/
+config.js
+dist/config.js*
 true!ng-annotate/
