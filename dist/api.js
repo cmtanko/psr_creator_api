@@ -53,7 +53,7 @@ app.get('/', function (req, res) {
 
     var CronJob = _cron2.default.CronJob;
     var job = new CronJob({
-        cronTime: '* 35 17 * * *',
+        cronTime: '* 56 19 * * *',
         onTick: function onTick() {
             (0, _emailService.sendEmail)(config, function (data) {
                 console.log(data);
@@ -64,7 +64,8 @@ app.get('/', function (req, res) {
              * or Sunday.
              */
         },
-        start: false
+        start: false,
+        timeZone: 'Asia/Kathmandu'
     });
     job.start();
 });
