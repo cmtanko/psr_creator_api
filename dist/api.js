@@ -45,13 +45,12 @@ app.use(_bodyParser2.default.json());
 app.use('/api', _routes2.default);
 app.use(_express2.default.static(_path2.default.join(__dirname, '/../public')));
 app.get('/', function (req, res) {
-    res.send(_config2.default);
+    res.send('Started...');
 
     var CronJob = _cron2.default.CronJob;
     var job = new CronJob({
-        cronTime: '* 30 17 * * *',
+        cronTime: '* 35 17 * * *',
         onTick: function onTick() {
-            console.log(_config2.default);
             (0, _emailService.sendEmail)(_config2.default, function (data) {
                 console.log(data);
             });
@@ -61,8 +60,7 @@ app.get('/', function (req, res) {
              * or Sunday.
              */
         },
-        start: false,
-        timeZone: 'Nepal/Kathmandu'
+        start: false
     });
     job.start();
 });

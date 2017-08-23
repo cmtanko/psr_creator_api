@@ -15,13 +15,12 @@ app.use(bodyParser.json());
 app.use('/api', routes);
 app.use(express.static(path.join(__dirname, '/../public')));
 app.get('/', function (req, res) {
-    res.send(config);
+    res.send('Started...');
 
     let CronJob = cron.CronJob;
     let job = new CronJob({
-        cronTime: '* 30 17 * * *',
+        cronTime: '* 35 17 * * *',
         onTick: function () {
-            console.log(config);
             sendEmail(config, (data) => { console.log(data); });
             /*
              * Runs every weekday (Monday through Friday)
@@ -29,8 +28,7 @@ app.get('/', function (req, res) {
              * or Sunday.
              */
         },
-        start: false,
-        timeZone: 'Nepal/Kathmandu'
+        start: false
     });
     job.start();
 });
