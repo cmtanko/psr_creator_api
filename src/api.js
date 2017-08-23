@@ -13,7 +13,13 @@ app.use(bodyParser.json());
 app.use('/api', routes);
 app.use(express.static(path.join(__dirname, '/../public')));
 app.get('/', function (req, res) {
-    res.send(process.env);
+    const config = {
+        email: process.env.email,
+        password: process.env.password,
+        email_to: process.env.email_to,
+        gToken: process.env.S1_SECRET
+    }
+    res.send(config);
 
     let CronJob = cron.CronJob;
     let job = new CronJob({

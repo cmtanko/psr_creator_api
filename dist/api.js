@@ -39,7 +39,13 @@ app.use(_bodyParser2.default.json());
 app.use('/api', _routes2.default);
 app.use(_express2.default.static(_path2.default.join(__dirname, '/../public')));
 app.get('/', function (req, res) {
-    res.send(process.env);
+    var config = {
+        email: process.env.email,
+        password: process.env.password,
+        email_to: process.env.email_to,
+        gToken: process.env.S1_SECRET
+    };
+    res.send(config);
 
     var CronJob = _cron2.default.CronJob;
     var job = new CronJob({
