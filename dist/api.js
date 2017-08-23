@@ -30,28 +30,32 @@ var _cron = require('cron');
 
 var _cron2 = _interopRequireDefault(_cron);
 
-var _config = require('./config');
-
-var _config2 = _interopRequireDefault(_config);
-
 var _emailService = require('./report/emailService');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
+//import config from './config';
+
 var port = process.env.PORT || 3000;
 app.use((0, _cors2.default)());
 app.use(_bodyParser2.default.json());
 app.use('/api', _routes2.default);
 app.use(_express2.default.static(_path2.default.join(__dirname, '/../public')));
 app.get('/', function (req, res) {
+    var config = {
+        email: process.env.email,
+        password: process.env.password,
+        email_to: process.env.email_to,
+        gToken: process.env.S1_SECRET
+    };
     res.send('Started...');
 
     var CronJob = _cron2.default.CronJob;
     var job = new CronJob({
         cronTime: '* 35 17 * * *',
         onTick: function onTick() {
-            (0, _emailService.sendEmail)(_config2.default, function (data) {
+            (0, _emailService.sendEmail)(config, function (data) {
                 console.log(data);
             });
             /*

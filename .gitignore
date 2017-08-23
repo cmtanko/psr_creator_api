@@ -4,5 +4,4 @@ bower_components/
 .idea/
 .tmp/
 config.js
-dist/config.js*
 true!ng-annotate/
