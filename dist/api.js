@@ -51,21 +51,23 @@ app.get('/', function (req, res) {
     };
     res.send('Started...');
 
-    // let CronJob = cron.CronJob;
-    // let job = new CronJob({
-    //     cronTime: '05 05 20 * * *',
-    //     onTick: function () {
-    //         sendEmail(config, (data) => { console.log(data); });
-    //         /*
-    //          * Runs every weekday (Monday through Friday)
-    //          * at 11:30:00 AM. It does not run on Saturday
-    //          * or Sunday.
-    //          */
-    //     },
-    //     start: false,
-    //     timeZone:'Asia/Kathmandu'
-    // });
-    // job.start();
+    var CronJob = _cron2.default.CronJob;
+    var job = new CronJob({
+        cronTime: '05 30 17 * * *',
+        onTick: function onTick() {
+            (0, _emailService.sendEmail)(config, function (data) {
+                console.log(data);
+            });
+            /*
+             * Runs every weekday (Monday through Friday)
+             * at 11:30:00 AM. It does not run on Saturday
+             * or Sunday.
+             */
+        },
+        start: false,
+        timeZone: 'Asia/Kathmandu'
+    });
+    job.start();
 });
 app.listen(port, function () {
     console.log('app listening on', port);
