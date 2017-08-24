@@ -144,7 +144,7 @@ const onSuccess = (repoDatas, res) => {
                     commitsByUsers.push(newObject);
                 }, commitsByUsers);
 
-                res.send({ 'result': commitsByUsers });
+                res.send({ 'commitsByUsers': commitsByUsers, "repoDatas": repoDatas });
 
             });
         },
