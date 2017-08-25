@@ -18,14 +18,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var router = (0, _express.Router)();
 var getStatus = function getStatus(statusCode, query) {
-  if (statusCode === query.inprogress) {
+  if (statusCode.toLowerCase() === query.inprogress.toLowerCase()) {
     return 'In Progress';
-  } else if (statusCode === query.complete) {
+  } else if (statusCode.toLowerCase() === query.completed.toLowerCase()) {
     return 'Completed';
-  } else if (statusCode === query.todo) {
+  } else if (statusCode.toLowerCase() === query.todo.toLowerCase()) {
     return 'To Do';
   }
-  return statusCode;
+  return "Undefined";
 };
 
 router.post('/', function (req, res, next) {
