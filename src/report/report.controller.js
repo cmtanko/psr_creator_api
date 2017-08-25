@@ -10,13 +10,22 @@ const getStatus = (statusCode) => {
 
   return statusCode;
 };
-router.get('/abc', (req,res,next) =>{
+router.get('/abc', (req, res, next) => {
   res.send('asdfasdfsdf');
 });
 
 router.post('/', (req, res, next) => {
   let query = req.body;
-  axios.get(query.url + '/rest/api/latest/search?jql=assignee=' + query.assignee + '&maxResults=' + '100',
+  let assigneeString = "";
+  query.assignee.split(',').forEach(function (a, i, array) {
+    if (i === array.length - 1) {
+      assigneeString += 'assignee=' + a;
+    } else {
+      assigneeString += 'assignee=' + a + '||';
+    }
+  }, assigneeString);
+  console.log(assigneeString);
+  axios.get(query.url + '/rest/api/latest/search?jql=' + assigneeString + '&maxResults=' + '100',
     {
       method: 'GET',
       headers: { 'Authorization': 'Basic ' + query.token }
@@ -25,7 +34,7 @@ router.post('/', (req, res, next) => {
     let results = data.data.issues;
     let issues = [];
     _.each(results, (result) => {
-      if (_.get(result, 'fields.status.name') !== 'Done') {
+      if (_.get(result, 'fields.status.name') !== 'Done' && _.get(result, 'fields.status.name') !== 'Backlog') {
         issues.push({
           task_id: result.key,
           task_type: _.get(result, 'fields.issuetype.name'),
@@ -37,7 +46,7 @@ router.post('/', (req, res, next) => {
         });
       }
     }, this);
-    results = _.sortBy(issues, ['task_status', 'task_id']) ;
+    results = _.sortBy(issues, ['task_status', 'task_id']);
     res.send({ 'result': results });
   })
     .catch((data) => {

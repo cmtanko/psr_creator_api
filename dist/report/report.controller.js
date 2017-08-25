@@ -34,14 +34,23 @@ router.get('/abc', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
   var query = req.body;
-  _axios2.default.get(query.url + '/rest/api/latest/search?jql=assignee=' + query.assignee + '&maxResults=' + '100', {
+  var assigneeString = "";
+  query.assignee.split(',').forEach(function (a, i, array) {
+    if (i === array.length - 1) {
+      assigneeString += 'assignee=' + a;
+    } else {
+      assigneeString += 'assignee=' + a + '||';
+    }
+  }, assigneeString);
+  console.log(assigneeString);
+  _axios2.default.get(query.url + '/rest/api/latest/search?jql=' + assigneeString + '&maxResults=' + '100', {
     method: 'GET',
     headers: { 'Authorization': 'Basic ' + query.token }
   }).then(function (data) {
     var results = data.data.issues;
     var issues = [];
     _lodash2.default.each(results, function (result) {
-      if (_lodash2.default.get(result, 'fields.status.name') !== 'Done') {
+      if (_lodash2.default.get(result, 'fields.status.name') !== 'Done' && _lodash2.default.get(result, 'fields.status.name') !== 'Backlog') {
         issues.push({
           task_id: result.key,
           task_type: _lodash2.default.get(result, 'fields.issuetype.name'),
