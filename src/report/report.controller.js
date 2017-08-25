@@ -3,16 +3,12 @@ import axios from 'axios';
 import _ from 'lodash';
 
 const router = Router();
-const getStatus = (statusCode) => {
-  if (statusCode === 'In Progress') { return 'In Progress'; }
-  else if (statusCode === 'Ready For Testing') { return 'Completed'; }
-  else if (statusCode === 'Selected for Development') { return 'To Do'; }
-
-  return statusCode;
+const getStatus = (statusCode,query) => {
+  if (statusCode.toLowerCase() === query.inprogress.toLowerCase()) { return 'In Progress'; }
+  else if (statusCode.toLowerCase() === query.complete.toLowerCase()) { return 'Completed'; }
+  else if (statusCode.toLowerCase() === query.todo.toLowerCase()) { return 'To Do'; }
+  return "Undefined";
 };
-router.get('/abc', (req, res, next) => {
-  res.send('asdfasdfsdf');
-});
 
 router.post('/', (req, res, next) => {
   let query = req.body;
@@ -43,10 +39,10 @@ router.post('/', (req, res, next) => {
           task_creation_date: _.get(result, 'fields.created'),
           task_updated_date: _.get(result, 'fields.updated'),
           task_assignee: _.get(result, 'fields.assignee.displayName'),
-          task_status: getStatus(_.get(result, 'fields.status.name'))
+          task_status: getStatus(_.get(result, 'fields.status.name'),query)
         });
       }
-    }, this);
+    }, query);
     results = _.sortBy(issues, ['task_status', 'task_id']);
     res.send({ 'result': results });
   })

@@ -17,20 +17,16 @@ var _lodash2 = _interopRequireDefault(_lodash);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _express.Router)();
-var getStatus = function getStatus(statusCode) {
-  if (statusCode === 'In Progress') {
+var getStatus = function getStatus(statusCode, query) {
+  if (statusCode === query.inprogress) {
     return 'In Progress';
-  } else if (statusCode === 'Ready For Testing') {
+  } else if (statusCode === query.complete) {
     return 'Completed';
-  } else if (statusCode === 'Selected for Development') {
+  } else if (statusCode === query.todo) {
     return 'To Do';
   }
-
   return statusCode;
 };
-router.get('/abc', function (req, res, next) {
-  res.send('asdfasdfsdf');
-});
 
 router.post('/', function (req, res, next) {
   var query = req.body;
@@ -59,10 +55,10 @@ router.post('/', function (req, res, next) {
           task_creation_date: _lodash2.default.get(result, 'fields.created'),
           task_updated_date: _lodash2.default.get(result, 'fields.updated'),
           task_assignee: _lodash2.default.get(result, 'fields.assignee.displayName'),
-          task_status: getStatus(_lodash2.default.get(result, 'fields.status.name'))
+          task_status: getStatus(_lodash2.default.get(result, 'fields.status.name'), query)
         });
       }
-    }, undefined);
+    }, query);
     results = _lodash2.default.sortBy(issues, ['task_status', 'task_id']);
     res.send({ 'result': results });
   }).catch(function (data) {
