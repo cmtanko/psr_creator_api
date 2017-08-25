@@ -35,7 +35,8 @@ router.get('/abc', function (req, res, next) {
 router.post('/', function (req, res, next) {
   var query = req.body;
   var assigneeString = "";
-  query.assignee.split(',').forEach(function (a, i, array) {
+  var assigneeArray = query.assignee.split(',');
+  assigneeArray.forEach(function (a, i, array) {
     if (i === array.length - 1) {
       assigneeString += 'assignee=' + a;
     } else {
@@ -43,7 +44,7 @@ router.post('/', function (req, res, next) {
     }
   }, assigneeString);
   console.log(assigneeString);
-  _axios2.default.get(query.url + '/rest/api/latest/search?jql=' + assigneeString + '&maxResults=' + '100', {
+  _axios2.default.get(query.url + '/rest/api/latest/search?jql=' + assigneeString + '&maxResults=' + 100 * assigneeArray.length, {
     method: 'GET',
     headers: { 'Authorization': 'Basic ' + query.token }
   }).then(function (data) {

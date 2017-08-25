@@ -17,7 +17,8 @@ router.get('/abc', (req, res, next) => {
 router.post('/', (req, res, next) => {
   let query = req.body;
   let assigneeString = "";
-  query.assignee.split(',').forEach(function (a, i, array) {
+  let assigneeArray = query.assignee.split(',');
+  assigneeArray.forEach(function (a, i, array) {
     if (i === array.length - 1) {
       assigneeString += 'assignee=' + a;
     } else {
@@ -25,7 +26,7 @@ router.post('/', (req, res, next) => {
     }
   }, assigneeString);
   console.log(assigneeString);
-  axios.get(query.url + '/rest/api/latest/search?jql=' + assigneeString + '&maxResults=' + '100',
+  axios.get(query.url + '/rest/api/latest/search?jql=' + assigneeString + '&maxResults=' + 100 * assigneeArray.length,
     {
       method: 'GET',
       headers: { 'Authorization': 'Basic ' + query.token }
