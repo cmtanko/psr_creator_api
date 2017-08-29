@@ -35,10 +35,8 @@ var sendEmail = exports.sendEmail = function sendEmail(data, result, cb) {
 
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-            console.log(error);
             cb(null, error);
         } else {
-            console.log('Email sent: ' + info.response);
             cb(null, info);
         }
     });

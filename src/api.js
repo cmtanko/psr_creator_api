@@ -37,9 +37,9 @@ app.get('/', function (req, res) {
                     "date": this.config.date
                 }
             ).then((data) => {
-                sendEmail(this.config, data.data, (data) => { console.log(data); });
+                sendEmail(this.config, data.data, (data) => { console.log("Email Sent " + data); });
             }).catch((data) => {
-                console.log('Error' + data);
+                sendEmail(this.config, data);
             });
         },
         start: false,
@@ -48,7 +48,7 @@ app.get('/', function (req, res) {
     job.config = config;
     job.start();
 
-    res.send('Started...321');
+    res.send('Started...');
 
 });
 app.listen(port, function () {

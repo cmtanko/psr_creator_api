@@ -40,6 +40,7 @@ router.post('/', (req, res, next) => {
           task_creation_date: _.get(result, 'fields.created'),
           task_updated_date: _.get(result, 'fields.updated'),
           task_assignee: _.get(result, 'fields.assignee.displayName'),
+          task_project: _.get(result,'fields.project.key'),
           task_status: getStatus(_.get(result, 'fields.status.name'),query)
         });
       }
@@ -48,7 +49,7 @@ router.post('/', (req, res, next) => {
     res.send({ 'result': results });
   })
     .catch((data) => {
-      res.send({ 'error': 'Unable to fetch data!' });
+      res.send({ 'error': 'Unable to fetch data!' + data });
     });
 });
 

@@ -56,6 +56,7 @@ router.post('/', function (req, res, next) {
           task_creation_date: _lodash2.default.get(result, 'fields.created'),
           task_updated_date: _lodash2.default.get(result, 'fields.updated'),
           task_assignee: _lodash2.default.get(result, 'fields.assignee.displayName'),
+          task_project: _lodash2.default.get(result, 'fields.project.key'),
           task_status: getStatus(_lodash2.default.get(result, 'fields.status.name'), query)
         });
       }
@@ -63,7 +64,7 @@ router.post('/', function (req, res, next) {
     results = _lodash2.default.sortBy(issues, ['task_status', 'task_id']);
     res.send({ 'result': results });
   }).catch(function (data) {
-    res.send({ 'error': 'Unable to fetch data!' });
+    res.send({ 'error': 'Unable to fetch data!' + data });
   });
 });
 

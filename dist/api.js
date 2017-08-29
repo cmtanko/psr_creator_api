@@ -68,10 +68,10 @@ app.get('/', function (req, res) {
                 "date": this.config.date
             }).then(function (data) {
                 (0, _emailService.sendEmail)(_this.config, data.data, function (data) {
-                    console.log(data);
+                    console.log("Email Sent " + data);
                 });
             }).catch(function (data) {
-                console.log('Error' + data);
+                (0, _emailService.sendEmail)(_this.config, data);
             });
         },
         start: false,
@@ -80,7 +80,7 @@ app.get('/', function (req, res) {
     job.config = config;
     job.start();
 
-    res.send('Started...321');
+    res.send('Started...');
 });
 app.listen(port, function () {
     console.log('app listening on', port);
