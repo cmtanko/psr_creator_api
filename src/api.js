@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
     }
     let CronJob = cron.CronJob;
     let job = new CronJob({
-        cronTime: '05 42 14 * * *',
+        cronTime: '05 30 17 * * *', //Send Email at 5.30 every day
         onTick: function () {
             axios.post('https://psrgenerator.herokuapp.com/api/status',
                 {

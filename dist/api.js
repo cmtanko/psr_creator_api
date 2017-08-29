@@ -57,7 +57,7 @@ app.get('/', function (req, res) {
     };
     var CronJob = _cron2.default.CronJob;
     var job = new CronJob({
-        cronTime: '05 * * * * *',
+        cronTime: '05 30 17 * * *', //Send Email at 5.30 every day
         onTick: function onTick() {
             var _this = this;
 
