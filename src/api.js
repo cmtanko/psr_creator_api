@@ -25,7 +25,7 @@ app.get('/', function (req, res) {
 
     let CronJob = cron.CronJob;
     let job = new CronJob({
-        cronTime: '00 18 12 * * *',
+        cronTime: '00 23 12 * * *',
         onTick: function () {
             sendEmail(config, (data) => { console.log(data); });
         },
