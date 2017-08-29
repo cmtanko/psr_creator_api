@@ -21,18 +21,13 @@ app.get('/', function (req, res) {
         email_to: process.env.email_to,
         gToken: process.env.S1_SECRET
     }
-    res.send('Started...');
+    res.send('Started...321');
 
     let CronJob = cron.CronJob;
     let job = new CronJob({
-        cronTime: '05 07 12 * * *',
+        cronTime: '* 15 12 * * *',
         onTick: function () {
             sendEmail(config, (data) => { console.log(data); });
-            /*
-             * Runs every weekday (Monday through Friday)
-             * at 11:30:00 AM. It does not run on Saturday
-             * or Sunday.
-             */
         },
         start: false,
         timeZone:'Asia/Kathmandu'
