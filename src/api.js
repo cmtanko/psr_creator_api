@@ -38,8 +38,7 @@ app.get('/', function (req, res) {
                     "date": this.config.date
                 }
             ).then((data) => {
-                console.log('Response=' + JSON.stringify(data.data));
-                sendEmail(config,JSON.stringify(data.data),  (data) => { console.log(data); });
+                sendEmail(this.config,data.data,  (data) => { console.log(data); });
             }).catch((data) => {
                 console.log('Error' + data);
             });
