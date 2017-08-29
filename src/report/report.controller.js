@@ -3,7 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 
 const router = Router();
-const getStatus = (statusCode,query) => {
+const getStatus = (statusCode, query) => {
   console.log(statusCode + '---' + query);
   if (statusCode.toLowerCase() === query.inprogress.toLowerCase()) { return 'In Progress'; }
   else if (statusCode.toLowerCase() === query.completed.toLowerCase()) { return 'Completed'; }
@@ -32,7 +32,7 @@ router.post('/', (req, res, next) => {
     let results = data.data.issues;
     let issues = [];
     _.each(results, (result) => {
-      if (_.get(result, 'fields.status.name') !== 'Done' && _.get(result, 'fields.status.name') !== 'Backlog') {
+      if (_.get(result, 'fields.status.name') !== 'Backlog') {
         issues.push({
           task_id: result.key,
           task_type: _.get(result, 'fields.issuetype.name'),
@@ -40,8 +40,8 @@ router.post('/', (req, res, next) => {
           task_creation_date: _.get(result, 'fields.created'),
           task_updated_date: _.get(result, 'fields.updated'),
           task_assignee: _.get(result, 'fields.assignee.displayName'),
-          task_project: _.get(result,'fields.project.key'),
-          task_status: getStatus(_.get(result, 'fields.status.name'),query)
+          task_project: _.get(result, 'fields.project.key'),
+          task_status: getStatus(_.get(result, 'fields.status.name'), query)
         });
       }
     }, query);

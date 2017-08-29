@@ -48,7 +48,7 @@ router.post('/', function (req, res, next) {
     var results = data.data.issues;
     var issues = [];
     _lodash2.default.each(results, function (result) {
-      if (_lodash2.default.get(result, 'fields.status.name') !== 'Done' && _lodash2.default.get(result, 'fields.status.name') !== 'Backlog') {
+      if (_lodash2.default.get(result, 'fields.status.name') !== 'Backlog') {
         issues.push({
           task_id: result.key,
           task_type: _lodash2.default.get(result, 'fields.issuetype.name'),
