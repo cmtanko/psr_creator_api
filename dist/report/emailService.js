@@ -29,7 +29,7 @@ var sendEmail = exports.sendEmail = function sendEmail(data, result, cb) {
     var mailOptions = {
         from: data.email,
         to: data.email_to,
-        subject: 'PSR Report',
+        subject: 'Daily Report' + new Date(),
         html: htmlCompose
     };
 
