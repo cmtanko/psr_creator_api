@@ -4,10 +4,11 @@ import _ from 'lodash';
 
 const router = Router();
 const getStatus = (statusCode,query) => {
+  console.log(statusCode + '---' + query);
   if (statusCode.toLowerCase() === query.inprogress.toLowerCase()) { return 'In Progress'; }
   else if (statusCode.toLowerCase() === query.completed.toLowerCase()) { return 'Completed'; }
   else if (statusCode.toLowerCase() === query.todo.toLowerCase()) { return 'To Do'; }
-  return "Undefined";
+  return statusCode;
 };
 
 router.post('/', (req, res, next) => {

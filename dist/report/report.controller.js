@@ -18,6 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var router = (0, _express.Router)();
 var getStatus = function getStatus(statusCode, query) {
+  console.log(statusCode + '---' + query);
   if (statusCode.toLowerCase() === query.inprogress.toLowerCase()) {
     return 'In Progress';
   } else if (statusCode.toLowerCase() === query.completed.toLowerCase()) {
@@ -25,7 +26,7 @@ var getStatus = function getStatus(statusCode, query) {
   } else if (statusCode.toLowerCase() === query.todo.toLowerCase()) {
     return 'To Do';
   }
-  return "Undefined";
+  return statusCode;
 };
 
 router.post('/', function (req, res, next) {
