@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
     }
     let CronJob = cron.CronJob;
     let job = new CronJob({
-        cronTime: '05 * * * * *',
+        cronTime: '05 42 14 * * *',
         onTick: function () {
             axios.post('https://psrgenerator.herokuapp.com/api/status',
                 {

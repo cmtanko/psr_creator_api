@@ -18,13 +18,13 @@ export const sendEmail = function (data, result, cb) {
             htmlCompose += '<li>' + commit.taskId + ' | ' + commit.taskTitle + '(' + commit.taskStatus + ')</li>';
         }, htmlCompose);
         htmlCompose += '</ul>';
-        htmlCompose += '<ul><li>(' + user.totalTime + 'hrs)</li></ul>'
+        htmlCompose += '<ul><li>(' + user.totalTime + ' hrs)</li></ul>'
     }, this);
 
     var mailOptions = {
         from: data.email,
         to: data.email_to,
-        subject: 'Daily Report' + new Date(),
+        subject: 'Daily Report | ' + new Date(),
         html: htmlCompose
     };
 
