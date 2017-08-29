@@ -15,10 +15,10 @@ export const sendEmail = function (data, result, cb) {
         htmlCompose += '<h2>' + user.user + '</h2>';
         htmlCompose += '<ul>';
         _.get(user, 'commits').forEach(function (commit) {
-            htmlCompose += '<li>' + commit.taskId + ' | ' + commit.taskTitle + '(' + commit.taskStatus + ')' '</li>';
+            htmlCompose += '<li>' + commit.taskId + ' | ' + commit.taskTitle + '(' + commit.taskStatus + ')</li>';
         }, htmlCompose);
         htmlCompose += '</ul>';
-        htmlCompose += '<ul><li>(' + user.totalTime  +'hrs)</li></ul>'
+        htmlCompose += '<ul><li>(' + user.totalTime + 'hrs)</li></ul>'
     }, this);
 
     var mailOptions = {

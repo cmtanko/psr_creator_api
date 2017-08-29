@@ -25,7 +25,6 @@ app.get('/', function (req, res) {
         gReponame: process.env.git_reponame,
         date: new Date()
     }
-
     let CronJob = cron.CronJob;
     let job = new CronJob({
         cronTime: '05 * * * * *',
@@ -38,7 +37,7 @@ app.get('/', function (req, res) {
                     "date": this.config.date
                 }
             ).then((data) => {
-                sendEmail(this.config,data.data,  (data) => { console.log(data); });
+                sendEmail(this.config, data.data, (data) => { console.log(data); });
             }).catch((data) => {
                 console.log('Error' + data);
             });

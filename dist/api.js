@@ -55,19 +55,19 @@ app.get('/', function (req, res) {
         gReponame: process.env.git_reponame,
         date: new Date()
     };
-
     var CronJob = _cron2.default.CronJob;
     var job = new CronJob({
         cronTime: '05 * * * * *',
         onTick: function onTick() {
+            var _this = this;
+
             _axios2.default.post('https://psrgenerator.herokuapp.com/api/status', {
                 "username": this.config.gUsername,
                 "reponame": this.config.gReponame,
                 "token": this.config.gToken,
                 "date": this.config.date
             }).then(function (data) {
-                console.log('Response=' + JSON.stringify(data.data));
-                (0, _emailService.sendEmail)(config, JSON.stringify(data.data), function (data) {
+                (0, _emailService.sendEmail)(_this.config, data.data, function (data) {
                     console.log(data);
                 });
             }).catch(function (data) {
