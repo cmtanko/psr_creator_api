@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 var _ = require('lodash');
 var nodemailer = require('nodemailer');
 
-var sendEmail = exports.sendEmail = function sendEmail(data, cb) {
+var sendEmail = exports.sendEmail = function sendEmail(data, html, cb) {
     var result = [];
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -20,7 +20,7 @@ var sendEmail = exports.sendEmail = function sendEmail(data, cb) {
         from: data.email,
         to: data.email_to,
         subject: 'PSR Report',
-        html: 'data'
+        html: html
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

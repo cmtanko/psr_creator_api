@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var nodemailer = require('nodemailer');
 
-export const sendEmail = function (data, cb) {
+export const sendEmail = function (data,html, cb) {
     var result = [];
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -15,7 +15,7 @@ export const sendEmail = function (data, cb) {
         from: data.email,
         to: data.email_to,
         subject: 'PSR Report',
-        html: 'data'
+        html: html
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

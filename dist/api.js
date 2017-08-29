@@ -32,11 +32,14 @@ var _cron2 = _interopRequireDefault(_cron);
 
 var _emailService = require('./report/emailService');
 
+var _axios = require('axios');
+
+var _axios2 = _interopRequireDefault(_axios);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var app = (0, _express2.default)();
 //import config from './config';
-
+var app = (0, _express2.default)();
 var port = process.env.PORT || 3000;
 app.use((0, _cors2.default)());
 app.use(_bodyParser2.default.json());
@@ -47,22 +50,37 @@ app.get('/', function (req, res) {
         email: process.env.email,
         password: process.env.password,
         email_to: process.env.email_to,
-        gToken: process.env.S1_SECRET
+        gToken: process.env.S1_SECRET,
+        gUsername: process.env.git_username,
+        gReponame: process.env.git_reponame,
+        date: new Date()
     };
-    res.send('Started...321');
 
     var CronJob = _cron2.default.CronJob;
     var job = new CronJob({
-        cronTime: '00 23 12 * * *',
+        cronTime: '05 * * * * *',
         onTick: function onTick() {
-            (0, _emailService.sendEmail)(config, function (data) {
-                console.log(data);
+            _axios2.default.post('https://psrgenerator.herokuapp.com/api/status', {
+                "username": this.config.gUsername,
+                "reponame": this.config.gReponame,
+                "token": this.config.gToken,
+                "date": this.config.date
+            }).then(function (data) {
+                console.log('Response=' + JSON.stringify(data.data));
+                (0, _emailService.sendEmail)(config, JSON.stringify(data.data), function (data) {
+                    console.log(data);
+                });
+            }).catch(function (data) {
+                console.log('Error' + data);
             });
         },
         start: false,
         timeZone: 'Asia/Kathmandu'
     });
+    job.config = config;
     job.start();
+
+    res.send('Started...321');
 });
 app.listen(port, function () {
     console.log('app listening on', port);
