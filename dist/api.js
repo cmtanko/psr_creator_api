@@ -80,7 +80,7 @@ app.get('/', function (req, res) {
     job.config = config;
     job.start();
 
-    res.send('Started...');
+    res.send('Started...123');
 });
 app.listen(port, function () {
     console.log('app listening on', port);

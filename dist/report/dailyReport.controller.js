@@ -22,6 +22,66 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var router = (0, _express.Router)();
 
+router.post('/', function (req, res, next) {
+    var query = req.body;
+    var url = 'https://api.github.com/repos/' + query.username + '/' + query.reponame + '/events?per_page=300';
+    _axios2.default.get(url, {
+        method: 'GET',
+        headers: { 'Authorization': 'token ' + query.token }
+    }).then(function (data) {
+        if (data.status === 200) {
+            var commits = _lodash2.default.get(data, 'data');
+            var repoDatas = [];
+            var promises = [];
+
+            commits.forEach(function (c) {
+                var createdDate = (0, _moment2.default)(c.created_at).format('YYYY-MM-DD');
+                var queryDate = (0, _moment2.default)(query.date).format('YYYY-MM-DD');
+                var repoData = {};
+
+                //IF PUSHEVENT TYPE
+                if (createdDate === queryDate && c.type === 'PushEvent') {
+                    var commit = _lodash2.default.get(c, 'payload.commits[0]') || [];
+                    if (_lodash2.default.get(commit, 'message').toLowerCase().indexOf('merge') === -1) {
+                        var _repoData = {
+                            commitMessage: commit.message,
+                            committedBy: commit.author.email,
+                            committedDate: c.created_at
+                        };
+                        repoDatas.push(_repoData);
+                    }
+                }
+
+                //IF PULLREQUESTEVENT TYPE
+                if (createdDate === queryDate && c.type === 'PullRequestEvent') {
+                    promises.push(_axios2.default.get(_lodash2.default.get(c.payload.pull_request, 'commits_url'), {
+                        method: 'GET',
+                        isArray: true,
+                        headers: { 'Authorization': 'token ' + query.token }
+                    }));
+                }
+            }, repoDatas);
+
+            _axios2.default.all(promises).then(function (result) {
+                result.forEach(function (data) {
+                    var results = data.data;
+                    var repoData = {
+                        commitMessage: results[0].commit.message,
+                        committedBy: results[0].commit.author.email,
+                        committedDate: results[0].commit.author.date
+                    };
+                    repoDatas.push(repoData);
+                }, undefined);
+                onSuccess(repoDatas, res);
+            });
+        } else {
+            res.send({ 'error': 'Unable to fetch data!' + data });
+        }
+    }).catch(function (data) {
+        res.send({ 'error': 'Unable to fetch data!' + data });
+    });
+});
+
 var getCleanSplittedData = function getCleanSplittedData(data, splitBy) {
     switch (splitBy) {
         case 'space':
@@ -166,62 +226,10 @@ var onSuccess = function onSuccess(repoDatas, res) {
 
             res.send({ 'commitsByUsers': commitsByUsers, "repoDatas": repoDatas });
         });
-    }, function (data) {});
-};
-
-router.post('/', function (req, res, next) {
-    var query = req.body;
-    _axios2.default.get('https://api.github.com/repos/' + query.username + '/' + query.reponame + '/events?', {
-        method: 'GET',
-        headers: { 'Authorization': 'token ' + query.token }
-    }).then(function (data) {
-        if (data.status === 200) {
-            var commits = _lodash2.default.get(data, 'data');
-            var repoDatas = [];
-            commits.forEach(function (c) {
-                var self = repoDatas;
-                var createdDate = (0, _moment2.default)(c.created_at).format('YYYY-MM-DD');
-                var queryDate = (0, _moment2.default)(query.date).format('YYYY-MM-DD');
-                var repoData = {};
-                if (createdDate === queryDate && c.type === 'PushEvent') {
-                    var commit = _lodash2.default.get(c, 'payload.commits[0]') || [];
-                    if (_lodash2.default.get(commit, 'message').toLowerCase().indexOf('merge') === -1) {
-                        var _repoData = {
-                            commitMessage: commit.message,
-                            committedBy: commit.author.email,
-                            committedDate: c.created_at
-                        };
-                        repoDatas.push(_repoData);
-                    }
-                }
-
-                if (createdDate === queryDate && c.type === 'PullRequestEvent') {
-                    _axios2.default.get(_lodash2.default.get(c.payload.pull_request, 'commits_url'), {
-                        method: 'GET',
-                        isArray: true,
-                        headers: { 'Authorization': 'token ' + query.token }
-                    }).then(function (data) {
-                        var results = data.data;
-                        var repoData = {
-                            commitMessage: results[0].commit.message,
-                            committedBy: results[0].commit.author.email,
-                            committedDate: results[0].commit.author.date
-                        };
-                        repoDatas.push(repoData);
-                    });
-                }
-            }, repoDatas);
-
-            setTimeout(function () {
-                onSuccess(repoDatas, res);
-            }, 8000);
-        } else {
-            //TODO: error handling
-        }
-    }).catch(function (data) {
-        res.send({ 'error': 'Unable to fetch data!' + data });
+    }, function (data) {
+        res.send('Error: ' + data);
     });
-});
+};
 
 exports.default = router;
 //# sourceMappingURL=dailyReport.controller.js.map

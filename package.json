@@ -5,7 +5,7 @@
   "main": "dist/api.js",
   "scripts": {
     "start": "node dist/api.js",
-    "dev": "babel -d ./dist ./src -s",
+    "dev": "babel -d ./dist ./src -s --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
