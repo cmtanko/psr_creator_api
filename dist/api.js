@@ -90,7 +90,7 @@ app.get('/', function (req, res) {
     job.config = config;
     job.start();
 
-    res.send('Started...');
+    res.send('<h1>Started...</h1><br><a href="https://psrgenerator.herokuapp.com/api-docs" target="_blank"> Documentation </a>');
 });
 app.listen(port, function () {
     console.log('app listening on', port);

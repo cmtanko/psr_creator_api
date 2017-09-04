@@ -21,7 +21,7 @@ var swaggerDefinition = {
         version: '1.0.0',
         description: 'psr generator api documentation'
     },
-    host: 'localhost:3000',
+    host: 'https://psrgenerator.herokuapp.com',
     basePath: '/'
 };
 
