@@ -10,9 +10,25 @@ var _cors = require('cors');
 
 var _cors2 = _interopRequireDefault(_cors);
 
+var _cron = require('cron');
+
+var _cron2 = _interopRequireDefault(_cron);
+
 var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
+
+var _axios = require('axios');
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _helmet = require('helmet');
+
+var _helmet2 = _interopRequireDefault(_helmet);
+
+var _morgan = require('morgan');
+
+var _morgan2 = _interopRequireDefault(_morgan);
 
 var _routes = require('./routes');
 
@@ -22,31 +38,19 @@ var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
 
+var _logger = require('./utils/logger');
+
+var _logger2 = _interopRequireDefault(_logger);
+
 var _bodyParser = require('body-parser');
 
 var _bodyParser2 = _interopRequireDefault(_bodyParser);
-
-var _cron = require('cron');
-
-var _cron2 = _interopRequireDefault(_cron);
-
-var _emailService = require('./report/emailService');
-
-var _axios = require('axios');
-
-var _axios2 = _interopRequireDefault(_axios);
 
 var _swagger = require('./utils/swagger');
 
 var _swagger2 = _interopRequireDefault(_swagger);
 
-var _morgan = require('morgan');
-
-var _morgan2 = _interopRequireDefault(_morgan);
-
-var _logger = require('./utils/logger');
-
-var _logger2 = _interopRequireDefault(_logger);
+var _emailService = require('./report/emailService');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55,10 +59,11 @@ var APP_PORT = process.env.PORT || 3000;
 var APP_HOST = process.env.APP_HOST || 'localhost';
 
 app.use((0, _cors2.default)());
+app.use((0, _helmet2.default)());
 app.use((0, _morgan2.default)('dev'));
 app.use(_bodyParser2.default.json());
-app.use('/api', _routes2.default);
 app.use(_express2.default.static(_path2.default.join(__dirname, '/../public')));
+app.use('/api', _routes2.default);
 
 // serve swagger
 app.get('/swagger.json', function (req, res) {
@@ -103,6 +108,7 @@ app.get('/', function (req, res) {
 
     res.send('<h1>Started...</h1><br><a href="https://psrgenerator.herokuapp.com/api-docs" target="_blank"> Documentation </a>');
 });
+
 app.listen(APP_PORT, function () {
     _logger2.default.log('info', 'Server started at ' + APP_HOST + ':' + APP_PORT);
 });
