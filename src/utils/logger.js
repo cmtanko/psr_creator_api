@@ -8,27 +8,27 @@ const logLevel = process.env.LOGGING_LEVEL || 'info';
 
 // Create log directory if it does not exist
 if (!fs.existsSync(logDir)) {
-  fs.mkdirSync(logDir);
+	fs.mkdirSync(logDir);
 }
 
 /**
  * Create new winston logger instance.
  */
 const logger = new winston.Logger({
-  transports: [
-    new winston.transports.Console({
-      timestamp: tsFormat,
-      colorize: true,
-      level: logLevel,
-    }),
-    new winston.transports.DailyRotateFile({
-      filename: `${logDir}/-debug.log`,
-      timestamp: tsFormat,
-      datePattern: 'yyyy-MM-dd',
-      prepend: true,
-      level: logLevel,
-    }),
-  ],
+	transports: [
+		new winston.transports.Console({
+			timestamp: tsFormat,
+			colorize: true,
+			level: logLevel
+		}),
+		new winston.transports.DailyRotateFile({
+			filename: `${logDir}/-debug.log`,
+			timestamp: tsFormat,
+			datePattern: 'yyyy-MM-dd',
+			prepend: true,
+			level: logLevel
+		})
+	]
 });
 
 export default logger;

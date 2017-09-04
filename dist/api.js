@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 require('babel-polyfill');
@@ -67,50 +67,48 @@ app.use('/api', _routes2.default);
 
 // serve swagger
 app.get('/swagger.json', function (req, res) {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(_swagger2.default);
+	res.setHeader('Content-Type', 'application/json');
+	res.send(_swagger2.default);
 });
 
 app.get('/', function (req, res) {
-    var config = {
-        email: process.env.email,
-        password: process.env.password,
-        email_to: process.env.email_to,
-        gToken: process.env.S1_SECRET,
-        gUsername: process.env.git_username,
-        gReponame: process.env.git_reponame,
-        date: new Date()
-    };
-    var CronJob = _cron2.default.CronJob;
-    var job = new CronJob({
-        cronTime: '05 56 17 * * *', //Send Email at 5.30 every day
-        onTick: function onTick() {
-            var _this = this;
+	var config = {
+		email: process.env.email,
+		password: process.env.password,
+		email_to: process.env.email_to,
+		gToken: process.env.S1_SECRET,
+		gUsername: process.env.git_username,
+		gReponame: process.env.git_reponame,
+		date: new Date()
+	};
+	var CronJob = _cron2.default.CronJob;
+	var job = new CronJob({
+		cronTime: '05 56 17 * * *', //Send Email at 5.30 every day
+		onTick: function onTick() {
+			_axios2.default.post('https://psrgenerator.herokuapp.com/api/status', {
+				"username": undefined.config.gUsername,
+				"reponame": undefined.config.gReponame,
+				"token": undefined.config.gToken,
+				"date": undefined.config.date
+			}).then(function (data) {
+				(0, _emailService.sendEmail)(undefined.config, data.data, function (data) {
+					console.log("Email Sent " + data);
+				});
+			}).catch(function (data) {
+				(0, _emailService.sendEmail)(undefined.config, data);
+			});
+		},
+		start: false,
+		timeZone: 'Asia/Kathmandu'
+	});
+	job.config = config;
+	job.start();
 
-            _axios2.default.post('https://psrgenerator.herokuapp.com/api/status', {
-                "username": this.config.gUsername,
-                "reponame": this.config.gReponame,
-                "token": this.config.gToken,
-                "date": this.config.date
-            }).then(function (data) {
-                (0, _emailService.sendEmail)(_this.config, data.data, function (data) {
-                    console.log("Email Sent " + data);
-                });
-            }).catch(function (data) {
-                (0, _emailService.sendEmail)(_this.config, data);
-            });
-        },
-        start: false,
-        timeZone: 'Asia/Kathmandu'
-    });
-    job.config = config;
-    job.start();
-
-    res.send('<h1>Started...</h1><br><a href="https://psrgenerator.herokuapp.com/api-docs" target="_blank"> Documentation </a>');
+	res.send('<h1>Started...</h1><br><a href="https://psrgenerator.herokuapp.com/api-docs" target="_blank"> Documentation </a>');
 });
 
 app.listen(APP_PORT, function () {
-    _logger2.default.log('info', 'Server started at ' + APP_HOST + ':' + APP_PORT);
+	_logger2.default.log('info', 'Server started at ' + APP_HOST + ':' + APP_PORT);
 });
 
 exports.default = app;

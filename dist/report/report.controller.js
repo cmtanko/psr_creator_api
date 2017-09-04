@@ -65,7 +65,7 @@ var router = (0, _express.Router)();
  *         description: Successfully Listed
  */
 
-router.post('/', function (req, res, next) {
+router.post('/', function (req, res) {
   var query = req.body;
   var assigneeString = getAssigneeString(query.assignee);
   var assigneeArray = query.assignee.split(',');
