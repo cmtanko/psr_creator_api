@@ -7,6 +7,7 @@
     "start": "nodemon dist/api.js",
     "dev": "babel -d ./dist ./src -s --watch",
     "lint": "eslint src",
+    "precommit": "npm run lint --silent",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -42,6 +43,7 @@
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "husky": "^0.14.3",
     "lint-staged": "^4.0.3",
     "nodemon": "^1.11.0"
   }
