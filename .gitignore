@@ -5,3 +5,4 @@ bower_components/
 .tmp/
 config.js
 true!ng-annotate/
+logs/

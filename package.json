@@ -5,6 +5,7 @@
   "main": "dist/api.js",
   "scripts": {
     "start": "nodemon dist/api.js",
+    "prestart": "npm run lint --silent",
     "dev": "babel -d ./dist ./src -s --watch",
     "lint": "eslint src",
     "precommit": "npm run lint --silent",
