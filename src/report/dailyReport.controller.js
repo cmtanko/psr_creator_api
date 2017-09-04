@@ -4,6 +4,41 @@ import _ from 'lodash';
 import moment from 'moment';
 
 const router = Router();
+/**
+ * @swagger
+ * definition:
+ *   Status:
+ *     properties:
+ *       username:
+ *         type: string
+ *       reponame:
+ *         type: string
+ *       token:
+ *         type: string
+ *       date:
+ *         type: string
+ */
+
+/**
+ * @swagger
+ * /api/status:
+ *   post:
+ *     tags:
+ *       - Report Generator
+ *     description: Lists Github commits based on given date
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: payload
+ *         description: Github commits
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Status'
+ *     responses:
+ *       200:
+ *         description: Successfully Listed
+ */
 
 router.post('/', (req, res, next) => {
     let query = req.body;

@@ -5,9 +5,10 @@ import routes from './routes';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cron from 'cron';
-//import config from './config';
 import { sendEmail } from './report/emailService';
 import axios from 'axios';
+import swaggerSpec from './utils/swagger';
+
 
 const app = express();
 var port = process.env.PORT || 3000;
@@ -15,6 +16,13 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use('/api', routes);
 app.use(express.static(path.join(__dirname, '/../public')));
+
+// serve swagger
+app.get('/swagger.json', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swaggerSpec);
+});
+
 app.get('/', function (req, res) {
     const config = {
         email: process.env.email,
@@ -48,7 +56,7 @@ app.get('/', function (req, res) {
     job.config = config;
     job.start();
 
-    res.send('Started...123');
+    res.send('Started...');
 
 });
 app.listen(port, function () {

@@ -21,41 +21,41 @@ var _moment2 = _interopRequireDefault(_moment);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _express.Router)();
+
 /**
  * @swagger
  * definition:
- *   Status:
+ *   Puppy:
  *     properties:
- *       username:
+ *       name:
  *         type: string
- *       reponame:
+ *       breed:
  *         type: string
- *       token:
- *         type: string
- *       date:
+ *       age:
+ *         type: integer
+ *       sex:
  *         type: string
  */
 
 /**
  * @swagger
- * /api/status:
- *   post:
+ * /sdf:
+ *   get:
  *     tags:
- *       - Report Generator
- *     description: Lists Github commits based on given date
+ *       - status
+ *     description: Returns all puppies
  *     produces:
  *       - application/json
- *     parameters:
- *       - name: payload
- *         description: Github commits
- *         in: body
- *         required: true
- *         schema:
- *           $ref: '#/definitions/Status'
  *     responses:
  *       200:
- *         description: Successfully Listed
+ *         description: An array of puppies
+ *         schema:
+ *           $ref: '#/definitions/Puppy'
  */
+
+router.get('/', function (req, res, next) {
+    res.send('asdfasdf');
+});
 
 router.post('/', function (req, res, next) {
     var query = req.body;

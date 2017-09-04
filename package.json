@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/api.js",
   "scripts": {
-    "start": "node dist/api.js",
+    "start": "nodemon dist/api.js",
     "dev": "babel -d ./dist ./src -s --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,7 +19,8 @@
     "express": "^4.15.4",
     "lodash": "^4.17.4",
     "nodemailer": "^4.0.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "swagger-jsdoc": "^1.3.0"
   },
   "devDependencies": {
     "babel": "^6.23.0",

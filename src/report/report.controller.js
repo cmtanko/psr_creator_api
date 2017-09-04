@@ -3,6 +3,53 @@ import axios from 'axios';
 import _ from 'lodash';
 
 const router = Router();
+/**
+ * @swagger
+ * definition:
+ *   Report:
+ *     properties:
+ *       from:
+ *         type: string
+ *       to:
+ *         type: string
+ *       url:
+ *         type: string
+ *       title:
+ *         type: string
+ *       assignee:
+ *         type: string
+ *       status:
+ *         type: string
+ *       token:
+ *         type: string
+ *       todo:
+ *         type: string
+ *       inprogress:
+ *         type: string
+ *       completed:
+ *         type: string
+ */
+
+/**
+ * @swagger
+ * /api/report:
+ *   post:
+ *     tags:
+ *       - Report Generator
+ *     description: Lists Jira Issues with status
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: payload
+ *         description: Jira Issues
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/Report'
+ *     responses:
+ *       200:
+ *         description: Successfully Listed
+ */
 
 router.post('/', (req, res, next) => {
   let query = req.body;

@@ -36,15 +36,25 @@ var _axios = require('axios');
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _swagger = require('./utils/swagger');
+
+var _swagger2 = _interopRequireDefault(_swagger);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//import config from './config';
 var app = (0, _express2.default)();
 var port = process.env.PORT || 3000;
 app.use((0, _cors2.default)());
 app.use(_bodyParser2.default.json());
 app.use('/api', _routes2.default);
 app.use(_express2.default.static(_path2.default.join(__dirname, '/../public')));
+
+// serve swagger
+app.get('/swagger.json', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(_swagger2.default);
+});
+
 app.get('/', function (req, res) {
     var config = {
         email: process.env.email,
@@ -80,7 +90,7 @@ app.get('/', function (req, res) {
     job.config = config;
     job.start();
 
-    res.send('Started...123');
+    res.send('Started...');
 });
 app.listen(port, function () {
     console.log('app listening on', port);
