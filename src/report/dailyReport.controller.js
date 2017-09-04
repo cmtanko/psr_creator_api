@@ -6,7 +6,7 @@ import moment from 'moment';
 const router = Router();
 /**
  * @swagger
- * definition:
+ * definitions:
  *   Status:
  *     properties:
  *       username:

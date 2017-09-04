@@ -5,7 +5,7 @@ import _ from 'lodash';
 const router = Router();
 /**
  * @swagger
- * definition:
+ * definitions:
  *   Report:
  *     properties:
  *       from:

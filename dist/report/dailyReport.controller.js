@@ -23,7 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var router = (0, _express.Router)();
 /**
  * @swagger
- * definition:
+ * definitions:
  *   Status:
  *     properties:
  *       username:

@@ -40,11 +40,22 @@ var _swagger = require('./utils/swagger');
 
 var _swagger2 = _interopRequireDefault(_swagger);
 
+var _morgan = require('morgan');
+
+var _morgan2 = _interopRequireDefault(_morgan);
+
+var _logger = require('./utils/logger');
+
+var _logger2 = _interopRequireDefault(_logger);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
-var port = process.env.PORT || 3000;
+var APP_PORT = process.env.PORT || 3000;
+var APP_HOST = process.env.APP_HOST || 'localhost';
+
 app.use((0, _cors2.default)());
+app.use((0, _morgan2.default)('dev'));
 app.use(_bodyParser2.default.json());
 app.use('/api', _routes2.default);
 app.use(_express2.default.static(_path2.default.join(__dirname, '/../public')));
@@ -92,8 +103,8 @@ app.get('/', function (req, res) {
 
     res.send('<h1>Started...</h1><br><a href="https://psrgenerator.herokuapp.com/api-docs" target="_blank"> Documentation </a>');
 });
-app.listen(port, function () {
-    console.log('app listening on', port);
+app.listen(APP_PORT, function () {
+    _logger2.default.log('info', 'Server started at ' + APP_HOST + ':' + APP_PORT);
 });
 
 exports.default = app;

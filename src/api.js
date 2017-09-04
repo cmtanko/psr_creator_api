@@ -8,11 +8,16 @@ import cron from 'cron';
 import { sendEmail } from './report/emailService';
 import axios from 'axios';
 import swaggerSpec from './utils/swagger';
-
+import morgan from 'morgan';
+import logger from './utils/logger';
 
 const app = express();
-var port = process.env.PORT || 3000;
+const APP_PORT = process.env.PORT || 3000;
+const APP_HOST = process.env.APP_HOST || 'localhost';
+
+
 app.use(cors());
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use('/api', routes);
 app.use(express.static(path.join(__dirname, '/../public')));
@@ -59,8 +64,11 @@ app.get('/', function (req, res) {
     res.send('<h1>Started...</h1><br><a href="https://psrgenerator.herokuapp.com/api-docs" target="_blank"> Documentation </a>');
 
 });
-app.listen(port, function () {
-    console.log('app listening on', port);
+app.listen(APP_PORT, function () {
+    logger.log(
+        'info',
+        'Server started at ' + APP_HOST + ':' + APP_PORT
+    );
 })
 
 export default app;
