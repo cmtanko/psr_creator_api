@@ -8,7 +8,7 @@ let swaggerDefinition = {
         version: '1.0.0',
         description: 'psr generator api documentation',
     },
-    host: 'https://psrgenerator.herokuapp.com',
+    host: 'psrgenerator.herokuapp.com',
     basePath: '/',
 };
 
