@@ -4,12 +4,13 @@
   "description": "",
   "main": "dist/api.js",
   "scripts": {
-    "start": "nodemon dist/api.js",
+    "preinstall": "npm install pm2 -g",
+    "start": "pm2 start dist/api.js -i max --attach",
+    "dev": "nodemon --watch dist",
     "prestart": "npm run lint --silent",
-    "dev": "babel -d ./dist ./src -s --watch",
+    "compile": "babel -d ./dist ./src -s --watch",
     "lint": "eslint src",
-    "precommit": "npm run lint --silent",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "precommit": "npm run lint --silent"
   },
   "author": "",
   "license": "ISC",
