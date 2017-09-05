@@ -5,81 +5,81 @@ var dailyReportController = require('../../dist/status/dailyReport.service');
 describe('Daily Report Controller', function() {
 	describe('getTimeInMins', function() {
 		it('Should return 60 if 1 hr', function() {
-			assert.equal(60, dailyReportController.getTimeInMins('1 hr'));
+			dailyReportController.getTimeInMins('1 hr').should.equal(60);
 		});
 		it('Should return 60 if 1 hrs', function() {
-			assert.equal(60, dailyReportController.getTimeInMins('1 hrs'));
+			dailyReportController.getTimeInMins('1 hrs').should.equal(60);
 		});
 		it('Should return 60 if 1 H', function() {
-			assert.equal(60, dailyReportController.getTimeInMins('1 H'));
+			dailyReportController.getTimeInMins('1 H').should.equal(60);
 		});
 		it('Should return 60 if 1Hours', function() {
-			assert.equal(60, dailyReportController.getTimeInMins('1 hrs'));
+			dailyReportController.getTimeInMins('1 hrs').should.equal(60);
 		});
 
 		it('Should return 90 if 1 hr 30 mins', function() {
-			assert.equal(90, dailyReportController.getTimeInMins('1 hr 30 mins'));
+			dailyReportController.getTimeInMins('1 hr 30 mins').should.equal(90);
 		});
 		it('Should return 90 if 1 h 30 m', function() {
-			assert.equal(90, dailyReportController.getTimeInMins('1 h 30 m'));
+			dailyReportController.getTimeInMins('1 h 30 m').should.equal(90);
 		});
 		it('Should return 90 if 1H 30M', function() {
-			assert.equal(90, dailyReportController.getTimeInMins('1H 30M'));
+			dailyReportController.getTimeInMins('1H 30M').should.equal(90);
 		});
 
 		it('Should return 30 if 30 mins', function() {
-			assert.equal(30, dailyReportController.getTimeInMins('30 if 30 mins'));
+			dailyReportController.getTimeInMins('30 if 30 mins').should.equal(30);
 		});
 		it('Should return 30 if 30 m', function() {
-			assert.equal(30, dailyReportController.getTimeInMins('30 if 30 m'));
+			dailyReportController.getTimeInMins('30 if 30 m').should.equal(30);
 		});
 		it('Should return 30 if 30M', function() {
-			assert.equal(30, dailyReportController.getTimeInMins('30 if 30M'));
+			dailyReportController.getTimeInMins('30 if 30M').should.equal(30);
 		});
 		it('Should return 30 if 30 Minutes', function() {
-			assert.equal(30, dailyReportController.getTimeInMins('30 if 30 Minutes'));
+			dailyReportController.getTimeInMins('30 if 30 Minutes').should.equal(30);
 		});
 	});
 
 	describe('getCleanSplittedData', function() {
 		it('Should return issue "ACT-470" if msg is "ACT-470 -m Design fixed on the teacher start and end date -t 2 hrs -s Completed"', function() {
-			assert.equal('ACT-470', dailyReportController.getCleanSplittedData("ACT-470 -m Design fixed on the teacher's start and end date -t 2 hrs -s Completed", "space"));
+			dailyReportController.getCleanSplittedData("ACT-470 -m Design fixed on the teacher's start and end date -t 2 hrs -s Completed", "space").should.equal('ACT-470');
 		});
 		it('Should return message "Design fixed on the teacher start and end date" if msg is "ACT-470 -m Design fixed on the teacher start and end date -t 2 hrs -s Completed"', function() {
-			assert.equal('Design fixed on the teacher start and end date', dailyReportController.getCleanSplittedData("ACT-470 -m Design fixed on the teacher start and end date -t 2 hrs -s Completed", "-m"));
+			dailyReportController.getCleanSplittedData("ACT-470 -m Design fixed on the teacher start and end date -t 2 hrs -s Completed", "-m").should.equal('Design fixed on the teacher start and end date');
 		});
 		it('Should return time "2 hrs" if msg is "ACT-470 -m Design fixed on the teacher start and end date -t 2 hrs -s Completed"', function() {
-			assert.equal('2 hrs', dailyReportController.getCleanSplittedData("ACT-470 -m Design fixed on the teacher's start and end date -t 2 hrs -s Completed", "-t"));
+			dailyReportController.getCleanSplittedData("ACT-470 -m Design fixed on the teacher's start and end date -t 2 hrs -s Completed", "-t").should.equal('2 hrs');
 		});
 		it('Should return time "0 mins" if msg is "ACT-470 -m Design fixed on the teacher start and end date -s Completed"', function() {
-			assert.equal('0 mins', dailyReportController.getCleanSplittedData("ACT-470 -m Design fixed on the teacher's start and end date -s Completed", "-t"));
+			dailyReportController.getCleanSplittedData("ACT-470 -m Design fixed on the teacher's start and end date -s Completed", "-t").should.equal('0 mins');
 		});
 		it('Should return state "Completed" if msg is "ACT-470 -m Design fixed on the teacher start and end date -t 2 hrs -s Completed"', function() {
-			assert.equal('Completed', dailyReportController.getCleanSplittedData("ACT-470 -m Design fixed on the teacher's start and end date -t 2 hrs -s Completed", "-s"));
+			dailyReportController.getCleanSplittedData("ACT-470 -m Design fixed on the teacher's start and end date -t 2 hrs -s Completed", "-s").should.equal('Completed');
 		});
 		it('Should return state "In Progress" if msg is "ACT-470 -m Design fixed on the teacher start and end date -t 2 hrs"', function() {
-			assert.equal('In Progress', dailyReportController.getCleanSplittedData("ACT-470 -m Design fixed on the teacher's start and end date -t 2 hrs", "-s"));
+			dailyReportController.getCleanSplittedData("ACT-470 -m Design fixed on the teacher's start and end date -t 2 hrs", "-s").should.equal('In Progress');
 		});
 	});
 
 	describe('getProjectStatus', function() {
 		it('Should return "In Progress" if msg is "in progress"', function() {
-			assert.equal('In Progress', dailyReportController.getProjectStatus('in progress'));
+			dailyReportController.getProjectStatus('in progress').should.equal('In Progress');
 		});
 		it('Should return "In Progress" if msg is "Inprogress"', function() {
-			assert.equal('In Progress', dailyReportController.getProjectStatus('Inprogress'));
+			dailyReportController.getProjectStatus('Inprogress').should.equal('In Progress');
 		});
 		it('Should return "In Progress" if msg is "WIP"', function() {
-			assert.equal('In Progress', dailyReportController.getProjectStatus('WIP'));
+			dailyReportController.getProjectStatus('WIP').should.equal('In Progress');
 		});
 		it('Should return "Completed" if msg is "Completed"', function() {
-			assert.equal('Completed', dailyReportController.getProjectStatus('Completed'));
+			dailyReportController.getProjectStatus('Completed').should.equal('Completed');
 		});
 		it('Should return "Completed" if msg is "complete"', function() {
-			assert.equal('Completed', dailyReportController.getProjectStatus('complete'));
+			dailyReportController.getProjectStatus('complete').should.equal('Completed');
 		});
 		it('Should return "In Progress" if msg is ""', function() {
-			assert.equal('In Progress', dailyReportController.getProjectStatus(''));
+			dailyReportController.getProjectStatus('').should.equal('In Progress');
 		});
 	});
 });
