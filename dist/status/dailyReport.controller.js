@@ -18,6 +18,10 @@ var _moment = require('moment');
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _dailyReport = require('./dailyReport.service');
+
+var _dailyReport2 = _interopRequireDefault(_dailyReport);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _express.Router)();
@@ -117,67 +121,6 @@ router.post('/', function (req, res) {
 	});
 });
 
-var getCleanSplittedData = function getCleanSplittedData(data, splitBy) {
-	switch (splitBy) {
-		case 'space':
-			{
-				return data.trim().split(' ')[0].trim();
-			}
-		case '-m':
-			{
-				var messageDetail = data.trim().split('-m')[1];
-
-				return messageDetail === undefined ? data.trim() : messageDetail.split('-')[0].trim();
-			}
-		case '-t':
-			{
-				var timeDetail = data.trim().split('-t')[1];
-
-				return timeDetail === undefined ? '0 mins' : timeDetail.split('-')[0].trim();
-			}
-		case '-s':
-			{
-				var statusDetail = data.trim().split('-s')[1];
-
-				return statusDetail === undefined ? 'In Progress' : statusDetail.split('-')[0].trim();
-			}
-		default:
-			return data;
-	}
-};
-
-var getTimeInMins = function getTimeInMins(timeSpent) {
-	var timeInMin = '';
-	if (!_lodash2.default.isNumber(parseFloat(timeSpent))) {
-		timeInMin = '0 mins';
-	}
-	if (timeSpent.toLowerCase().indexOf('h') !== -1 && timeSpent.toLowerCase().indexOf('m') !== -1) {
-		var hourSplit = timeSpent.toLowerCase().split('h')[0].trim();
-		var minSplit = timeSpent.toLowerCase().split('m')[0].trim().split(' ');
-		timeInMin = parseFloat(hourSplit) * 60 + parseFloat(minSplit[minSplit.length - 1]);
-	} else if (timeSpent.toLowerCase().indexOf('h') !== -1) {
-		timeInMin = parseFloat(timeSpent) * 60;
-	} else if (timeSpent.toLowerCase().indexOf('m') !== -1) {
-		timeInMin = parseFloat(timeSpent);
-	} else if (timeSpent < 8) {
-		timeInMin = parseFloat(timeSpent) * 60;
-	} else {
-		timeInMin = parseFloat(timeSpent);
-	}
-
-	return timeInMin;
-};
-
-var getProjectStatus = function getProjectStatus(status) {
-	status = status.toLowerCase();
-	if (status === 'wip' || status === 'progress' || status === 'in progress' || status === 'inprogress') {
-		return 'In Progress';
-	} else if (status === 'completed' || status === 'complete') {
-		return 'Completed';
-	} else {
-		return 'In Progress';
-	}
-};
 var getGitCommitsReport = function getGitCommitsReport(repoDatas, successFn) {
 	var reportDatas = [];
 	repoDatas.forEach(function (c) {
@@ -185,10 +128,10 @@ var getGitCommitsReport = function getGitCommitsReport(repoDatas, successFn) {
 		var reportData = {
 			committedBy: c.committedBy || '',
 			committedDate: c.committedDate || '',
-			taskId: getCleanSplittedData(commitMessage, 'space'),
-			taskTitle: getCleanSplittedData(commitMessage, '-m'),
-			taskTimeSpent: getTimeInMins(getCleanSplittedData(commitMessage, '-t')),
-			taskStatus: getProjectStatus(getCleanSplittedData(commitMessage, '-s'))
+			taskId: _dailyReport2.default.getCleanSplittedData(commitMessage, 'space'),
+			taskTitle: _dailyReport2.default.getCleanSplittedData(commitMessage, '-m'),
+			taskTimeSpent: _dailyReport2.default.getTimeInMins(_dailyReport2.default.getCleanSplittedData(commitMessage, '-t')),
+			taskStatus: _dailyReport2.default.getProjectStatus(_dailyReport2.default.getCleanSplittedData(commitMessage, '-s'))
 		};
 		reportDatas.push(reportData);
 	}, reportDatas);

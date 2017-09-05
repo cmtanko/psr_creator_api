@@ -2,6 +2,7 @@ import { Router } from 'express';
 import axios from 'axios';
 import _ from 'lodash';
 import moment from 'moment';
+import dailyReportService from './dailyReport.service';
 
 const router = Router();
 /**
@@ -105,63 +106,6 @@ router.post('/', (req, res) => {
 	});
 });
 
-const getCleanSplittedData = (data, splitBy) => {
-	switch (splitBy) {
-		case 'space': {
-			return data.trim().split(' ')[0].trim();
-		}
-		case '-m': {
-			let messageDetail = data.trim().split('-m')[1];
-
-			return messageDetail === undefined ? data.trim() : messageDetail.split('-')[0].trim();
-		}
-		case '-t': {
-			let timeDetail = data.trim().split('-t')[1];
-
-			return timeDetail === undefined ? '0 mins' : timeDetail.split('-')[0].trim();
-		}
-		case '-s': {
-			let statusDetail = data.trim().split('-s')[1];
-
-			return statusDetail === undefined ? 'In Progress' : statusDetail.split('-')[0].trim();
-		}
-		default:
-			return data;
-	}
-};
-
-const getTimeInMins = (timeSpent) => {
-	let timeInMin = '';
-	if (!_.isNumber(parseFloat(timeSpent))) {
-		timeInMin = '0 mins';
-	}
-	if (timeSpent.toLowerCase().indexOf('h') !== -1 && timeSpent.toLowerCase().indexOf('m') !== -1) {
-		let hourSplit = timeSpent.toLowerCase().split('h')[0].trim();
-		let minSplit = timeSpent.toLowerCase().split('m')[0].trim().split(' ');
-		timeInMin = parseFloat(hourSplit) * 60 + parseFloat(minSplit[minSplit.length - 1]);
-	} else if (timeSpent.toLowerCase().indexOf('h') !== -1) {
-		timeInMin = parseFloat(timeSpent) * 60;
-	} else if (timeSpent.toLowerCase().indexOf('m') !== -1) {
-		timeInMin = parseFloat(timeSpent);
-	} else if (timeSpent < 8) {
-		timeInMin = parseFloat(timeSpent) * 60;
-	} else {
-		timeInMin = parseFloat(timeSpent);
-	}
-
-	return timeInMin;
-};
-
-const getProjectStatus = (status) => {
-	status = status.toLowerCase();
-	if (status === 'wip' || status === 'progress' || status === 'in progress' || status === 'inprogress') {
-		return 'In Progress';
-	} else if (status === 'completed' || status === 'complete') {
-		return 'Completed';
-	} else {
-		return 'In Progress';
-	}
-};
 const getGitCommitsReport = (repoDatas, successFn) => {
 	let reportDatas = [];
 	repoDatas.forEach((c) => {
@@ -169,10 +113,10 @@ const getGitCommitsReport = (repoDatas, successFn) => {
 		let reportData = {
 			committedBy: c.committedBy || '',
 			committedDate: c.committedDate || '',
-			taskId: getCleanSplittedData(commitMessage, 'space'),
-			taskTitle: getCleanSplittedData(commitMessage, '-m'),
-			taskTimeSpent: getTimeInMins(getCleanSplittedData(commitMessage, '-t')),
-			taskStatus: getProjectStatus(getCleanSplittedData(commitMessage, '-s'))
+			taskId: dailyReportService.getCleanSplittedData(commitMessage, 'space'),
+			taskTitle: dailyReportService.getCleanSplittedData(commitMessage, '-m'),
+			taskTimeSpent: dailyReportService.getTimeInMins(dailyReportService.getCleanSplittedData(commitMessage, '-t')),
+			taskStatus: dailyReportService.getProjectStatus(dailyReportService.getCleanSplittedData(commitMessage, '-s'))
 		};
 		reportDatas.push(reportData);
 	}, reportDatas);
@@ -251,6 +195,5 @@ const onSuccess = (repoDatas, res) => {
 			res.send('Error: ' + data);
 		});
 };
-
 
 export default router;

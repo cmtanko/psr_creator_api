@@ -9,8 +9,9 @@
     "dev": "nodemon --watch dist",
     "prestart": "npm run lint --silent",
     "compile": "babel -d ./dist ./src -s --watch",
-    "lint": "eslint src",
-    "precommit": "npm run lint --silent"
+    "lint": "eslint src && npm run test",
+    "precommit": "npm run lint --silent",
+    "test": "mocha './test/**/*.spec.js'"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +24,7 @@
     "express": "^4.15.4",
     "helmet": "^3.8.1",
     "lodash": "^4.17.4",
+    "mocha": "^3.5.0",
     "morgan": "^1.8.2",
     "nodemailer": "^4.0.1",
     "path": "^0.12.7",

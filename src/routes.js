@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import report from "./report/report.controller";
-import dailyReport from "./report/dailyReport.controller";
+import dailyReport from "./status/dailyReport.controller";
 
 const router = Router();
 

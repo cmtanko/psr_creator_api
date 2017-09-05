@@ -14,6 +14,10 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+var _report = require('./report.service');
+
+var _report2 = _interopRequireDefault(_report);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _express.Router)();
@@ -67,7 +71,7 @@ var router = (0, _express.Router)();
 
 router.post('/', function (req, res) {
   var query = req.body;
-  var assigneeString = getAssigneeString(query.assignee);
+  var assigneeString = _report2.default.getAssigneeString(query.assignee);
   var assigneeArray = query.assignee.split(',');
   _axios2.default.get(query.url + '/rest/api/latest/search?jql=' + assigneeString + '&maxResults=' + 100 * assigneeArray.length, {
     method: 'GET',
@@ -79,31 +83,6 @@ router.post('/', function (req, res) {
     res.send({ 'error': 'Unable to fetch data!' + data });
   });
 });
-
-var getStatus = function getStatus(statusCode, query) {
-  if (statusCode.toLowerCase() === query.inprogress.toLowerCase()) {
-    return 'In Progress';
-  } else if (statusCode.toLowerCase() === query.completed.toLowerCase()) {
-    return 'Completed';
-  } else if (statusCode.toLowerCase() === query.todo.toLowerCase()) {
-    return 'To Do';
-  }
-  return statusCode;
-};
-
-var getAssigneeString = function getAssigneeString(assignee) {
-  //CONCATENATE ALL ASSIGNEES IF MORE THAN ONE WITH CORRECT FORMAT
-  var assigneeString = "";
-  var assigneeArray = assignee.split(',');
-  assigneeArray.forEach(function (a, i, array) {
-    if (i === array.length - 1) {
-      assigneeString += 'assignee=' + a;
-    } else {
-      assigneeString += 'assignee=' + a + '||';
-    }
-  }, assigneeString);
-  return assigneeString;
-};
 
 var composeTaskResult = function composeTaskResult(results, query) {
   var issues = [];
@@ -117,7 +96,7 @@ var composeTaskResult = function composeTaskResult(results, query) {
         task_updated_date: _lodash2.default.get(result, 'fields.updated'),
         task_assignee: _lodash2.default.get(result, 'fields.assignee.displayName'),
         task_project: _lodash2.default.get(result, 'fields.project.key'),
-        task_status: getStatus(_lodash2.default.get(result, 'fields.status.name'), query)
+        task_status: _report2.default.getStatus(_lodash2.default.get(result, 'fields.status.name'), query)
       });
     }
   }, query);

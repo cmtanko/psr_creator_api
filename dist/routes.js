@@ -10,7 +10,7 @@ var _report = require("./report/report.controller");
 
 var _report2 = _interopRequireDefault(_report);
 
-var _dailyReport = require("./report/dailyReport.controller");
+var _dailyReport = require("./status/dailyReport.controller");
 
 var _dailyReport2 = _interopRequireDefault(_dailyReport);
 
