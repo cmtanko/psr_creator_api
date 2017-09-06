@@ -1,4 +1,3 @@
-var assert = require('assert');
 var reportController = require('../../dist/report/report.service');
 var should = require('chai').should();
 
