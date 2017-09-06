@@ -3,11 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.getProjectStatus = exports.getCleanSplittedData = exports.getTimeInMins = undefined;
+exports.getGitRepos = exports.getProjectStatus = exports.getCleanSplittedData = exports.getTimeInMins = undefined;
 
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
+
+var _axios = require('axios');
+
+var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -73,9 +77,22 @@ var getProjectStatus = exports.getProjectStatus = function getProjectStatus(stat
 	}
 };
 
+var getGitRepos = exports.getGitRepos = function getGitRepos(username, reponame, token, successFn, failFn) {
+	var url = 'https://api.github.com/repos/' + username + '/' + reponame + '/events?per_page=300';
+	_axios2.default.get(url, {
+		method: 'GET',
+		headers: { 'Authorization': 'token ' + token }
+	}).then(function (data) {
+		return successFn(data);
+	}).catch(function (data) {
+		return failFn(data);
+	});
+};
+
 exports.default = {
 	getTimeInMins: getTimeInMins,
 	getCleanSplittedData: getCleanSplittedData,
-	getProjectStatus: getProjectStatus
+	getProjectStatus: getProjectStatus,
+	getGitRepos: getGitRepos
 };
 //# sourceMappingURL=dailyReport.service.js.map

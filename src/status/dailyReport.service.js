@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import axios from 'axios';
 
 export const getTimeInMins = (timeSpent) => {
 	let timeInMin = '';
@@ -58,8 +59,20 @@ export const getProjectStatus = (status) => {
 	}
 };
 
+export const getGitRepos = (username, reponame, token, successFn, failFn) => {
+	let url = 'https://api.github.com/repos/' + username + '/' + reponame + '/events?per_page=300';
+	axios.get(url,
+		{
+			method: 'GET',
+			headers: { 'Authorization': 'token ' + token }
+		}
+	).then((data) => successFn(data))
+		.catch((data) => failFn(data));
+};
+
 export default {
 	getTimeInMins,
 	getCleanSplittedData,
-	getProjectStatus
+	getProjectStatus,
+	getGitRepos
 };

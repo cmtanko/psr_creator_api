@@ -43,67 +43,64 @@ const router = Router();
 
 router.post('/', (req, res) => {
 	let query = req.body;
-	let url = 'https://api.github.com/repos/' + query.username + '/' + query.reponame + '/events?per_page=300';
-	axios.get(url,
-		{
-			method: 'GET',
-			headers: { 'Authorization': 'token ' + query.token }
-		}
-	).then((data) => {
-		if (data.status === 200) {
-			let commits = _.get(data, 'data');
-			let repoDatas = [];
-			let promises = [];
+	dailyReportService.getGitRepos(
+		query.username,
+		query.reponame,
+		query.token, (data) => {
+			if (data.status === 200) {
+				let commits = _.get(data, 'data');
+				let repoDatas = [];
+				let promises = [];
 
-			commits.forEach((c) => {
-				let createdDate = moment(c.created_at).format('YYYY-MM-DD');
-				let queryDate = moment(query.date).format('YYYY-MM-DD');
-				let repoData = {};
+				commits.forEach((c) => {
+					let createdDate = moment(c.created_at).format('YYYY-MM-DD');
+					let queryDate = moment(query.date).format('YYYY-MM-DD');
+					let repoData = {};
 
-				//IF PUSHEVENT TYPE
-				if (createdDate === queryDate && c.type === 'PushEvent') {
-					let commit = _.get(c, 'payload.commits[0]') || [];
-					if (_.get(commit, 'message').toLowerCase().indexOf('merge') === -1) {
-						let repoData = {
-							commitMessage: commit.message,
-							committedBy: commit.author.email,
-							committedDate: c.created_at
-						};
-						repoDatas.push(repoData);
-					}
-				}
-
-				//IF PULLREQUESTEVENT TYPE
-				if (createdDate === queryDate && c.type === 'PullRequestEvent') {
-					promises.push(axios.get(_.get(c.payload.pull_request, 'commits_url'),
-						{
-							method: 'GET',
-							isArray: true,
-							headers: { 'Authorization': 'token ' + query.token }
+					//IF PUSHEVENT TYPE
+					if (createdDate === queryDate && c.type === 'PushEvent') {
+						let commit = _.get(c, 'payload.commits[0]') || [];
+						if (_.get(commit, 'message').toLowerCase().indexOf('merge') === -1) {
+							let repoData = {
+								commitMessage: commit.message,
+								committedBy: commit.author.email,
+								committedDate: c.created_at
+							};
+							repoDatas.push(repoData);
 						}
-					));
-				}
-			}, repoDatas);
+					}
 
-			axios.all(promises)
-				.then((result) => {
-					result.forEach((data) => {
-						let results = data.data;
-						let repoData = {
-							commitMessage: results[0].commit.message,
-							committedBy: results[0].commit.author.email,
-							committedDate: results[0].commit.author.date
-						};
-						repoDatas.push(repoData);
-					}, this);
-					onSuccess(repoDatas, res);
-				});
-		} else {
+					//IF PULLREQUESTEVENT TYPE
+					if (createdDate === queryDate && c.type === 'PullRequestEvent') {
+						promises.push(axios.get(_.get(c.payload.pull_request, 'commits_url'),
+							{
+								method: 'GET',
+								isArray: true,
+								headers: { 'Authorization': 'token ' + query.token }
+							}
+						));
+					}
+				}, repoDatas);
+
+				axios.all(promises)
+					.then((result) => {
+						result.forEach((data) => {
+							let results = data.data;
+							let repoData = {
+								commitMessage: results[0].commit.message,
+								committedBy: results[0].commit.author.email,
+								committedDate: results[0].commit.author.date
+							};
+							repoDatas.push(repoData);
+						}, this);
+						onSuccess(repoDatas, res);
+					});
+			} else {
+				res.send({ 'error': 'Unable to fetch data!' + data });
+			}
+		}, (data) => {
 			res.send({ 'error': 'Unable to fetch data!' + data });
-		}
-	}).catch((data) => {
-		res.send({ 'error': 'Unable to fetch data!' + data });
-	});
+		});
 });
 
 const getGitCommitsReport = (repoDatas, successFn) => {

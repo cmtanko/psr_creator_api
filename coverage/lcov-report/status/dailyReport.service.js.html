@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for status/dailyReport.service.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">status/</a> dailyReport.service.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80.85% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>38/47</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">81.08% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>30/37</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">57.14% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80.43% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>37/46</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.getGitRepos = exports.getProjectStatus = exports.getCleanSplittedData = exports.getTimeInMins = undefined;
+&nbsp;
+var _lodash = require('lodash');
+&nbsp;
+var _lodash2 = _interopRequireDefault(_lodash);
+&nbsp;
+var _axios = require('axios');
+&nbsp;
+var _axios2 = _interopRequireDefault(_axios);
+&nbsp;
+function _interopRequireDefault(obj) { return obj &amp;&amp; obj.__esModule ? <span class="branch-0 cbranch-no" title="branch not covered" >obj </span>: { default: obj }; }
+&nbsp;
+var getTimeInMins = exports.getTimeInMins = function getTimeInMins(timeSpent) {
+	var timeInMin = '';
+	<span class="missing-if-branch" title="if path not taken" >I</span>if (!_lodash2.default.isNumber(parseFloat(timeSpent))) {
+<span class="cstat-no" title="statement not covered" >		timeInMin = '0 mins';</span>
+	}
+	if (timeSpent.toLowerCase().indexOf('h') !== -1 &amp;&amp; timeSpent.toLowerCase().indexOf('m') !== -1) {
+		var hourSplit = timeSpent.toLowerCase().split('h')[0].trim();
+		var minSplit = timeSpent.toLowerCase().split('m')[0].trim().split(' ');
+		timeInMin = parseFloat(hourSplit) * 60 + parseFloat(minSplit[minSplit.length - 1]);
+	} else if (timeSpent.toLowerCase().indexOf('h') !== -1) {
+		timeInMin = parseFloat(timeSpent) * 60;
+	} else <span class="missing-if-branch" title="else path not taken" >E</span>if (timeSpent.toLowerCase().indexOf('m') !== -1) {
+		timeInMin = parseFloat(timeSpent);
+	} else <span class="cstat-no" title="statement not covered" >if (timeSpent &lt; 8) {</span>
+<span class="cstat-no" title="statement not covered" >		timeInMin = parseFloat(timeSpent) * 60;</span>
+	} else {
+<span class="cstat-no" title="statement not covered" >		timeInMin = parseFloat(timeSpent);</span>
+	}
+&nbsp;
+	return timeInMin;
+};
+&nbsp;
+var getCleanSplittedData = exports.getCleanSplittedData = function getCleanSplittedData(data, splitBy) {
+	switch (splitBy) {
+		case 'space':
+			{
+				return data.trim().split(' ')[0].trim();
+			}
+		case '-m':
+			{
+				var messageDetail = data.trim().split('-m')[1];
+&nbsp;
+				return messageDetail === undefined ? <span class="branch-0 cbranch-no" title="branch not covered" >data.trim() </span>: messageDetail.split('-')[0].trim();
+			}
+		case '-t':
+			{
+				var timeDetail = data.trim().split('-t')[1];
+&nbsp;
+				return timeDetail === undefined ? '0 mins' : timeDetail.split('-')[0].trim();
+			}
+		case '-s':
+			{
+				var statusDetail = data.trim().split('-s')[1];
+&nbsp;
+				return statusDetail === undefined ? 'In Progress' : statusDetail.split('-')[0].trim();
+			}
+<span class="branch-4 cbranch-no" title="branch not covered" >		default:</span>
+<span class="cstat-no" title="statement not covered" >			return data;</span>
+	}
+};
+&nbsp;
+var getProjectStatus = exports.getProjectStatus = function getProjectStatus(status) {
+	status = status.toLowerCase();
+	if (status === 'wip' || status === 'progress' || status === 'in progress' || status === 'inprogress') {
+		return 'In Progress';
+	} else if (status === 'completed' || status === 'complete') {
+		return 'Completed';
+	} else {
+		return 'In Progress';
+	}
+};
+&nbsp;
+var getGitRepos = exports.getGitRepos = <span class="fstat-no" title="function not covered" >function getGitRepos(username, reponame, token, successFn, failFn) {</span>
+<span class="cstat-no" title="statement not covered" >	var url = 'https://api.github.com/repos/' + username + '/' + reponame + '/events?per_page=300';</span>
+<span class="cstat-no" title="statement not covered" >	_axios2.default.get(url, {</span>
+		method: 'GET',
+		headers: { 'Authorization': 'token ' + token }
+	}).then(<span class="fstat-no" title="function not covered" >function (data) {</span>
+<span class="cstat-no" title="statement not covered" >		return successFn(data);</span>
+	}).catch(<span class="fstat-no" title="function not covered" >function (data) {</span>
+<span class="cstat-no" title="statement not covered" >		return failFn(data);</span>
+	});
+};
+&nbsp;
+exports.default = {
+	getTimeInMins: getTimeInMins,
+	getCleanSplittedData: getCleanSplittedData,
+	getProjectStatus: getProjectStatus,
+	getGitRepos: getGitRepos
+};
+//# sourceMappingURL=dailyReport.service.js.map</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Sep 06 2017 13:14:58 GMT+0545 (NPT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

@@ -63,11 +63,7 @@ var router = (0, _express.Router)();
 
 router.post('/', function (req, res) {
 	var query = req.body;
-	var url = 'https://api.github.com/repos/' + query.username + '/' + query.reponame + '/events?per_page=300';
-	_axios2.default.get(url, {
-		method: 'GET',
-		headers: { 'Authorization': 'token ' + query.token }
-	}).then(function (data) {
+	_dailyReport2.default.getGitRepos(query.username, query.reponame, query.token, function (data) {
 		if (data.status === 200) {
 			var commits = _lodash2.default.get(data, 'data');
 			var repoDatas = [];
@@ -116,7 +112,7 @@ router.post('/', function (req, res) {
 		} else {
 			res.send({ 'error': 'Unable to fetch data!' + data });
 		}
-	}).catch(function (data) {
+	}, function (data) {
 		res.send({ 'error': 'Unable to fetch data!' + data });
 	});
 });
