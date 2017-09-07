@@ -11,7 +11,7 @@ import express from 'express';
 import logger from './utils/logger';
 import bodyParser from 'body-parser';
 import swaggerSpec from './utils/swagger';
-import { sendEmail } from './report/emailService';
+import { sendEmail } from './utils/emailService';
 
 const app = express();
 const APP_PORT = process.env.PORT || 3000;

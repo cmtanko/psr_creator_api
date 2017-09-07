@@ -30,7 +30,7 @@ var options = {
 	// import swaggerDefinitions
 	swaggerDefinition: swaggerDefinition,
 	// path to the API docs
-	apis: [_path2.default.join(__dirname, '../report/*.js'), _path2.default.join(__dirname, '../status/*.js')]
+	apis: [_path2.default.join(__dirname, '../report/*.js'), _path2.default.join(__dirname, '../status/*.js'), _path2.default.join(__dirname, '../*.js')]
 };
 
 // initialize swagger-jsdoc
