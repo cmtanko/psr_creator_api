@@ -32,7 +32,8 @@ var dailyReportController = function dailyReportController() {
 		var user = new _user2.default({
 			username: query.username,
 			reponame: query.reponame,
-			token: query.token
+			token: query.token,
+			date: query.date
 		});
 
 		if (!user.isValid()) {

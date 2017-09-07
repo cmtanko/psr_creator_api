@@ -10,7 +10,8 @@ const dailyReportController = () => {
 		let user = new User({
 			username: query.username,
 			reponame: query.reponame,
-			token: query.token
+			token: query.token,
+			date: query.date
 		});
 
 		if (!user.isValid()) {
