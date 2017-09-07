@@ -59,12 +59,12 @@ export const getProjectStatus = (status) => {
 	}
 };
 
-export const getGitRepos = (username, reponame, token, successFn, failFn) => {
-	let url = 'https://api.github.com/repos/' + username + '/' + reponame + '/events?per_page=300';
+export const getGitRepos = (user, successFn, failFn) => {
+	let url = 'https://api.github.com/repos/' + user.username + '/' + user.reponame + '/events?per_page=300';
 	axios.get(url,
 		{
 			method: 'GET',
-			headers: { 'Authorization': 'token ' + token }
+			headers: { 'Authorization': 'token ' + user.token }
 		}
 	).then((data) => successFn(data))
 		.catch((data) => failFn(data));

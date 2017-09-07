@@ -50,7 +50,7 @@ var _swagger = require('./utils/swagger');
 
 var _swagger2 = _interopRequireDefault(_swagger);
 
-var _emailService = require('./report/emailService');
+var _emailService = require('./utils/emailService');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

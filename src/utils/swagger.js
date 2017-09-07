@@ -18,7 +18,8 @@ let options = {
 	swaggerDefinition: swaggerDefinition,
 	// path to the API docs
 	apis: [path.join(__dirname, '../report/*.js'),
-		path.join(__dirname, '../status/*.js')]
+		path.join(__dirname, '../status/*.js'),
+		path.join(__dirname, '../*.js')]
 };
 
 // initialize swagger-jsdoc

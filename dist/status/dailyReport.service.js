@@ -77,11 +77,11 @@ var getProjectStatus = exports.getProjectStatus = function getProjectStatus(stat
 	}
 };
 
-var getGitRepos = exports.getGitRepos = function getGitRepos(username, reponame, token, successFn, failFn) {
-	var url = 'https://api.github.com/repos/' + username + '/' + reponame + '/events?per_page=300';
+var getGitRepos = exports.getGitRepos = function getGitRepos(user, successFn, failFn) {
+	var url = 'https://api.github.com/repos/' + user.username + '/' + user.reponame + '/events?per_page=300';
 	_axios2.default.get(url, {
 		method: 'GET',
-		headers: { 'Authorization': 'token ' + token }
+		headers: { 'Authorization': 'token ' + user.token }
 	}).then(function (data) {
 		return successFn(data);
 	}).catch(function (data) {
