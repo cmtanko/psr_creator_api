@@ -1,7 +1,5 @@
-import _ from 'lodash';
-
-var User = function(args) {
-	this.isValid = function() {
+var User = (args) => {
+	this.isValid = () => {
 		if (args.username && args.reponame) return true;
 		return false;
 	};
