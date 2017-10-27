@@ -37,7 +37,6 @@ const dailyReportController = () => {
 			commits.forEach((c) => {
 				let createdDate = moment(c.created_at).format('YYYY-MM-DD');
 				let queryDate = moment(query.date).format('YYYY-MM-DD');
-				let repoData = {};
 
 				//IF PUSHEVENT TYPE
 				if (createdDate === queryDate && c.type === 'PushEvent') {
